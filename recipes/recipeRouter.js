@@ -47,7 +47,25 @@ router.get('/:id/directions', (req, res) => {
     .catch(error => {
         res.status(500).json({ message: "Failed to get directions for this recipe"});
     });
-})
+});
+
+//get ingredients by recipe id
+router.get('/:id/ingredients', (req, res) => {
+    const id = req.params.id;
+
+    recipes.getShoppingList(id)
+    .then(ing => {
+        console.log(ing)
+        if(ing.length){
+            res.status(200).json(ing);
+        } else {
+            res.status(404).json({ message: "Failed to find ingredients for this recipe"});
+        }
+    })
+    .catch(error => {
+        res.status(500).json({message: "Unable to process request"});
+    });
+});
 
 //create new recipe
 router.post('/', (req, res) => {
@@ -103,7 +121,6 @@ router.delete('/:id', (req, res) => {
 
 
 
-//get all steps for one recipe
-router.get('/:id/directions')
+
 
 module.exports = router;

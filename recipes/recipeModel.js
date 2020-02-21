@@ -5,6 +5,7 @@ module.exports = {
     find,
     findById,
     findDirections,
+    getShoppingList,
     remove,
     update
 
@@ -36,6 +37,15 @@ function findDirections(id) {
     .where("recipe_id", id)
     .orderBy("step_number", "asc");
 }
+
+function getShoppingList(recipe_id){
+
+    return db('ingredients')    
+    .join('recipe_ingredients as ri', "ri.ingredient_id", "ingredients.id")
+    .select("ingredients.name", "ri.quantity")
+    .where({recipe_id})
+    
+};
 
 //deletes from database
 function remove(id){
